@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 
-// типизацию можно в отдельный файл вынести как и функции, просто оставил в одном файле для удобства
 
 interface User {
   id: number;
@@ -43,10 +42,12 @@ function App() {
         address: `${user.address.city}, ${user.address.street}, ${user.address.suite}`,
         website: `https://${user.website}`,
         company: user.company.name,
-        posts: postsData.map((post: Post) => ({
-          ...post,
-          title_scop: post.title.length <= 20 ? post.title : post.title.substring(0, 20) + '...',
-        })),
+        posts: postsData
+          .filter((post: Post) => post.userId === user.id)
+          .map((post: Post) => ({
+            ...post,
+            title_scop: post.title.length <= 20 ? post.title : post.title.substring(0, 20) + '...',
+          })),
       }));
       console.log('data from API:', data);
     }
